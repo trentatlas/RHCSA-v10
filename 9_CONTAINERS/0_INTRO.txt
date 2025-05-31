@@ -29,7 +29,7 @@ man podman | col -b > podman-man1.txt
 
 IV. podman login 
 [podman2@rhel10master ~]$ podman login registry.redhat.io
-Username: trentunix@gmail.com
+Username: 
 Password: 
 Login Succeeded!
 
