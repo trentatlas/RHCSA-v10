@@ -1,0 +1,51 @@
+------------
+IX. Manage containers
+
+-- Find and retrieve container images from a remote registry
+-- Inspect container images
+-- Perform container management using commands such as podman and skopeo
+-- Perform basic container management such as running, starting, stopping, and listing running containers
+-- Run a service inside a container
+-- Configure a container to start automatically as a systemd service
+-- Attach persistent storage to a container
+
+------------
+I. mkdir
+mkdir $HOME/.config/systemd/user/
+mkdir $HOME/.config/containers/
+
+cp -p /etc/containers/registries.conf $HOME/.config/containers/registries.conf
+
+#loginctl enable-linger PODMANUSER 
+
+
+II. Version
+podman --version 
+podman version 5.4.0
+
+III. MAN FILE
+man podman | col -b > podman-man1.txt
+
+
+IV. podman login 
+[podman2@rhel10master ~]$ podman login registry.redhat.io
+Username: trentunix@gmail.com
+Password: 
+Login Succeeded!
+
+V. podman search
+
+[podman2@rhel10master ~]$ podman search ubi
+NAME                                       DESCRIPTION
+registry.redhat.io/ubi10                   rhcc_registry.access.redhat.com_ubi10
+registry.redhat.io/ubi10/ubi               rhcc_registry.access.redhat.com_ubi10/ubi
+
+[podman2@rhel10master ~]$ podman pull registry.redhat.io/ubi10/ubi
+Trying to pull registry.redhat.io/ubi10/ubi:latest...
+Getting image source signatures
+
+[podman2@rhel10master ~]$ podman images
+REPOSITORY                    TAG         IMAGE ID      CREATED      SIZE
+registry.redhat.io/ubi10/ubi  latest      da862ffa1787  2 weeks ago  216 MB
+
+
