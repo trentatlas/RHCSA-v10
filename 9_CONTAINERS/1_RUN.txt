@@ -1,0 +1,77 @@
+RUN
+podman run
+[podman2@rhel10master ~]$ podman run registry.redhat.io/ubi10/ubi echo "Hello World"
+Hello World
+
+
+VARIABLES
+[podman2@rhel10master ~]$ podman run -e HW="RED HAT UBI" registry.redhat.io/ubi10/ubi printenv HW
+RED HAT UBI
+
+
+
+[podman2@rhel10master ~]$ podman ps -a or  podman ps --all
+
+podman ps --all --format=json | jq
+JSON / INSPECT
+
+CONTAINER ID  IMAGE                                COMMAND           CREATED         STATUS                     PORTS       NAMES
+70a80e07f837  registry.redhat.io/ubi10/ubi:latest  /bin/bash         29 seconds ago  Exited (0) 30 seconds ago              flamboyant_sanderson
+1ffa4cae176e  registry.redhat.io/ubi10/ubi:latest  echo Hello World  5 seconds ago   Exited (0) 5 seconds ago               stoic_khorana
+
+
+
+
+-- PORT
+podman run -p 8080:8080 registry.redhat.io/ubi10/httpd-24
+
+RUN in BACKGROUD
+podman run --rm -d registry.redhat.io/ubi10/httpd-24
+
+-d, --detach                                   Run container in background and print container ID
+--rm                                       Remove container and any anonymous unnamed volume associated with the container after exit
+
+
+
+
+
+[podman2@rhel10master ~]$ podman run --rm -d -p 8080:8080 registry.redhat.io/ubi10/httpd-24
+7e17bac4e9bbafb7ea94dc74d20fa053e758d3e8c94076838216e4630f9c55c7
+
+[podman2@rhel10master ~]$ podman ps
+CONTAINER ID  IMAGE                                     COMMAND               CREATED             STATUS             PORTS                             NAMES
+7e17bac4e9bb  registry.redhat.io/ubi10/httpd-24:latest  /usr/bin/run-http...  About a minute ago  Up About a minute  0.0.0.0:8080->8080/tcp, 8443/tcp  gifted_stonebraker
+
+
+[podman2@rhel10master ~]$ podman ps
+CONTAINER ID  IMAGE                                     COMMAND               CREATED         STATUS         PORTS                             NAMES
+7e17bac4e9bb  registry.redhat.io/ubi10/httpd-24:latest  /usr/bin/run-http...  11 minutes ago  Up 11 minutes  0.0.0.0:8080->8080/tcp, 8443/tcp  gifted_stonebraker
+[podman2@rhel10master ~]$ podman stop gifted_stonebraker 
+gifted_stonebraker
+[podman2@rhel10master ~]$ podman ps
+CONTAINER ID  IMAGE       COMMAND     CREATED     STATUS      PORTS       NAMES
+[podman2@rhel10master ~]$
+
+
+[podman2@rhel10master ~]$ curl http://192.168.3.100:8080/foo
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>404 Not Found</title>
+
+
+
+
+-- REMOVE from ps -a
+[podman2@rhel10master ~]$ podman ps -a
+CONTAINER ID  IMAGE                                COMMAND           CREATED        STATUS                    PORTS       NAMES
+70a80e07f837  registry.redhat.io/ubi10/ubi:latest  /bin/bash         9 minutes ago  Exited (0) 9 minutes ago              flamboyant_sanderson
+1ffa4cae176e  registry.redhat.io/ubi10/ubi:latest  echo Hello World  9 minutes ago  Exited (0) 9 minutes ago              stoic_khorana
+[podman2@rhel10master ~]$ podman rm 70
+70
+[podman2@rhel10master ~]$ podman rm 1f
+1f
+[podman2@rhel10master ~]$ podman ps --all
+CONTAINER ID  IMAGE       COMMAND     CREATED     STATUS      PORTS       NAMES
+[podman2@rhel10master ~]$ 
+
+

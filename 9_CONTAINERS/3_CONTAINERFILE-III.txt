@@ -1,0 +1,36 @@
+
+
+https://www.redhat.com/en/blog/container-systemd-persist-reboot
+
+https://www.redhat.com/en/blog/quadlet-podman
+
+[podman3@rhel10master ~]$ podman run -d --name atlasleepinfinityservice atlasleepinfinityservice
+2c3225b23416b312a5bb3e1114c3757e0685ab67ef5185c4caabb7b4d6889aba
+[podman3@rhel10master ~]$ podman ps 
+CONTAINER ID  IMAGE                                      COMMAND         CREATED        STATUS        PORTS       NAMES
+2c3225b23416  localhost/atlasleepinfinityservice:latest  sleep infinity  3 seconds ago  Up 3 seconds              atlasleepinfinityservice
+
+
+[podman3@rhel10master ~]$ podman top atlasleepinfinityservice huser user
+HUSER       USER
+787431      atlasleep
+
+
+[podman3@rhel10master ~]$ podman generate systemd --new --files --name atlasleepinfinityservice
+
+DEPRECATED command:
+It is recommended to use Quadlets for running containers and pods under systemd.
+
+Please refer to podman-systemd.unit(5) for details.
+/home/podman3/container-atlasleepinfinityservice.service
+[podman3@rhel10master ~]$ 
+
+
+
+[podman3@rhel10master ~]$ cp -pZ container-atlasleepinfinityservice.service .config/systemd/user/
+[podman3@rhel10master ~]$ systemctl --user daemon-reload
+
+
+[podman3@rhel10master ~]$ systemctl --user daemon-reload
+[podman3@rhel10master ~]$ systemctl --user enable container-atlasleepinfinityservice.service
+Created symlink '/home/podman3/.config/systemd/user/default.target.wants/container-atlasleepinfinityservice.service' → '/home/podman3/.config/systemd/user/container-atlasleepinfinityservice.service'.

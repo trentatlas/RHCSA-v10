@@ -25,6 +25,23 @@ podman version 5.4.0
 
 III. MAN FILE
 man podman | col -b > podman-man1.txt
+man podman-run | col -b > podman-run-man1.txt
+
+
+podman-run
+
+--pull=policy
+    Pull image policy. The default is missing. 
+     • always: Always pull the image and throw an error if the pull fails.
+     • missing: Pull the image only when the image is not in the local containers storage.  Throw an error if no image is found and the pull fails.
+     • never: Never pull the image but use the one from the local containers storage.  Throw an error if no image is found.
+     • newer:  Pull if the image on the registry is newer than the one in the local containers storage.  An image is considered to be newer when the digests are differ‐
+       ent.  Comparing the time stamps is prone to errors.  Pull errors are suppressed if a local image was found.
+
+podman run --pull=never httpd-24
+
+-d DETATHED
+-it Interactive Terminal
 
 
 IV. podman login 
@@ -47,5 +64,7 @@ Getting image source signatures
 [podman2@rhel10master ~]$ podman images
 REPOSITORY                    TAG         IMAGE ID      CREATED      SIZE
 registry.redhat.io/ubi10/ubi  latest      da862ffa1787  2 weeks ago  216 MB
+
+
 
 

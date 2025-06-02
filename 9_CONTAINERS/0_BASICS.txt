@@ -1,0 +1,108 @@
+-- PULL NEVER
+[podman2@rhel10master ~]$ podman images
+REPOSITORY                         TAG         IMAGE ID      CREATED      SIZE
+registry.redhat.io/ubi10/httpd-24  latest      8cf18b41b8c9  13 days ago  285 MB
+registry.redhat.io/ubi10/ubi       latest      da862ffa1787  2 weeks ago  216 MB
+
+
+[podman2@rhel10master ~]$ podman run --pull=never -d registry.redhat.io/ubi10/nginx-126
+Error: registry.redhat.io/ubi10/nginx-126: image not known
+
+
+[podman2@rhel10master ~]$ podman images
+REPOSITORY                          TAG         IMAGE ID      CREATED      SIZE
+registry.redhat.io/ubi10/nginx-126  latest      539c174f1727  13 days ago  300 MB
+registry.redhat.io/ubi10/httpd-24   latest      8cf18b41b8c9  13 days ago  285 MB
+registry.redhat.io/ubi10/ubi        latest      da862ffa1787  2 weeks ago  216 MB
+[podman2@rhel10master ~]$ podman run --pull=never -d registry.redhat.io/ubi10/nginx-126
+683adc9757a4450dccf9758a7626db8c0a0e726a26fbf75f304830dc6d498920
+[podman2@rhel10master ~]$ podman ps
+CONTAINER ID  IMAGE       COMMAND     CREATED     STATUS      PORTS       NAMES
+[podman2@rhel10master ~]$ podman ps -a
+CONTAINER ID  IMAGE                                      COMMAND               CREATED        STATUS                     PORTS               NAMES
+683adc9757a4  registry.redhat.io/ubi10/nginx-126:latest  /bin/sh -c $STI_S...  9 seconds ago  Exited (0) 10 seconds ago  8080/tcp, 8443/tcp  sweet_visvesvaraya
+[podman2@rhel10master ~]$
+
+
+-- PULL NEWER
+[podman2@rhel10master ~]$ podman run --pull=newer -d registry.redhat.io/ubi10/nginx-126
+922219776d96be14f5c118f68929ca189dc05e7d170ce573c9c1364cfd2e6a2e
+[podman2@rhel10master ~]$ podman ps -a
+CONTAINER ID  IMAGE                                      COMMAND               CREATED         STATUS                     PORTS               NAMES
+683adc9757a4  registry.redhat.io/ubi10/nginx-126:latest  /bin/sh -c $STI_S...  57 seconds ago  Exited (0) 58 seconds ago  8080/tcp, 8443/tcp  sweet_visvesvaraya
+922219776d96  registry.redhat.io/ubi10/nginx-126:latest  /bin/sh -c $STI_S...  4 seconds ago   Exited (0) 4 seconds ago   8080/tcp, 8443/tcp  laughing_chandrasekhar
+[podman2@rhel10master ~]$ 
+
+
+
+-- LIST / INSPECT
+
+[podman2@rhel10master ~]$ podman image list
+REPOSITORY                          TAG         IMAGE ID      CREATED      SIZE
+registry.redhat.io/ubi10/nginx-126  latest      539c174f1727  13 days ago  300 MB
+registry.redhat.io/ubi10/httpd-24   latest      8cf18b41b8c9  13 days ago  285 MB
+registry.redhat.io/ubi10/ubi        latest      da862ffa1787  2 weeks ago  216 MB
+
+podman image inspect registry.redhat.io/ubi10/nginx-126 | jq
+
+
+-- TREE
+
+[podman2@rhel10master ~]$ podman image tree nginx-126
+Image ID: 539c174f1727
+Tags:     [registry.redhat.io/ubi10/nginx-126:latest]
+Size:     299.6MB
+Image Layers
+├── ID: 77300185f16e Size: 216.2MB Top Layer of: [registry.redhat.io/ubi10/ubi:latest]
+├── ID: f9a236bbe7ff Size: 33.89MB
+└── ID: 5ce21bae5879 Size: 49.43MB Top Layer of: [registry.redhat.io/ubi10/nginx-126:latest]
+
+
+---- REMOVE rmi and rm
+
+[podman2@rhel10master ~]$ podman rm
+rmi  (Remove one or more images from local storage)  rm   (Remove one or more containers)
+
+
+-- REMOVE FROM ps -a
+
+[podman2@rhel10master ~]$ podman ps -a
+CONTAINER ID  IMAGE                                      COMMAND               CREATED        STATUS                    PORTS               NAMES
+922219776d96  registry.redhat.io/ubi10/nginx-126:latest  /bin/sh -c $STI_S...  6 minutes ago  Exited (0) 6 minutes ago  8080/tcp, 8443/tcp  laughing_chandrasekhar
+
+
+[podman2@rhel10master ~]$ podman rm laughing_chandrasekhar
+
+[podman2@rhel10master ~]$ podman ps -a
+CONTAINER ID  IMAGE       COMMAND     CREATED     STATUS      PORTS       NAMES
+
+
+==========
+
+-- REMOVE from images 
+
+[podman2@rhel10master ~]$ podman images
+REPOSITORY                          TAG         IMAGE ID      CREATED      SIZE
+registry.redhat.io/ubi10/nginx-126  latest      539c174f1727  13 days ago  300 MB
+registry.redhat.io/ubi10/httpd-24   latest      8cf18b41b8c9  13 days ago  285 MB
+registry.redhat.io/ubi10/ubi        latest      da862ffa1787  2 weeks ago  216 MB
+
+
+[podman2@rhel10master ~]$ podman rm
+rmi  (Remove one or more images from local storage)  rm   (Remove one or more containers)                 
+
+
+[podman2@rhel10master ~]$ podman rmi 539c174f1727
+Untagged: registry.redhat.io/ubi10/nginx-126:latest
+Deleted: 539c174f17270cf629661a51a1d5bca0f75e015cdb579373646ad4173c042116
+
+
+[podman2@rhel10master ~]$ podman images
+REPOSITORY                         TAG         IMAGE ID      CREATED      SIZE
+registry.redhat.io/ubi10/httpd-24  latest      8cf18b41b8c9  13 days ago  285 MB
+registry.redhat.io/ubi10/ubi       latest      da862ffa1787  2 weeks ago  216 MB
+
+
+
+-- PRUNE
+delete previous versions of an Container
