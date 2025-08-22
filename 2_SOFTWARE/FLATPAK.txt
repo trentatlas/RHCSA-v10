@@ -1,0 +1,104 @@
+
+dnf install flatpak
+
+student@dev:~$ mkdir -p .config/systemd/containers
+student@dev:~$ mkdir -p .config/systemd/user
+student@dev:~$ mkdir -p .config/flatpak
+
+student@dev:~$ cp -p /etc/containers/registries.conf .config/systemd/containers/
+
+
+
+student@dev:~$ podman login registry.redhat.io 
+Username: trentunix@gmail.com
+Password: 
+Login Succeeded!
+
+
+By default, the login credentials expire after the current session. However, you can permanently save the credentials for the current user:
+
+user@host:~$ cp $XDG_RUNTIME_DIR/containers/auth.json \
+$HOME/.config/flatpak/oci-auth.json
+
+student@dev:~$ env | egrep XDG
+XDG_MENU_PREFIX=gnome-
+XDG_SESSION_DESKTOP=gnome
+XDG_SESSION_TYPE=wayland
+XDG_CURRENT_DESKTOP=GNOME
+XDG_SESSION_CLASS=user
+XDG_RUNTIME_DIR=/run/user/1001
+XDG_DATA_DIRS=/home/student/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/
+student@dev:~$ ll /run/user/1001/containers/
+total 4
+-rw-------. 1 student student 102 Aug 21 16:47 auth.json
+drwx------. 3 student student  60 Aug 21 16:33 networks
+drwx------. 2 student student 100 Aug 21 16:33 overlay
+drwx------. 4 student student  80 Aug 21 16:33 overlay-containers
+drwx------. 2 student student  60 Aug 21 16:33 overlay-layers
+drwx------. 2 student student  40 Aug 21 16:33 overlay-locks
+student@dev:~$ cp -p $XDG_RUNTIME_DIR/containers/auth.json .config/flatpak/oci-auth.json
+
+student@dev:~$ ls -la .config/flatpak/oci-auth.json 
+-rw-------. 1 student student 102 Aug 21 16:47 .config/flatpak/oci-auth.json
+student@dev:~$ cat  .config/flatpak/oci-auth.json 
+{
+	"auths": {
+		"registry.redhat.io": {
+			"auth": "dHJlbnR1bml4QGdtYWlsLmNvbTpSSENTQS5uODg="
+		}
+	}
+}student@dev
+
+
+
+
+--
+student@dev:~$ flatpak remotes
+Name   Options
+rhel   system,oci,no-gpg-verify
+REDHAT user,oci,no-gpg-verify
+student@dev:~$ flatpak remotes -d
+Name   Title                    URL                                  Collection ID     Subset Filter Priority Options                  … … Homepage                                               Icon
+rhel   Red Hat Enterprise Linux oci+https://flatpaks.redhat.io/rhel/ com.redhat.Stable -      -      1        system,oci,no-gpg-verify … … https://catalog.redhat.com/software/containers/explore https://www.redhat.com/misc/favicon.ico
+REDHAT Red Hat Enterprise Linux oci+https://flatpaks.redhat.io/rhel/ -                 -      -      1        user,oci,no-gpg-verify   … … https://catalog.redhat.com/software/containers/explore https://www.redhat.com/misc/favicon.ico
+
+
+
+
+
+To list the applications that are available in a remote repository, use the flatpak remote-ls command. To ignore runtimes and list only the applications, add the --app option:
+
+student@dev:~$ flatpak remote-ls --app
+Name              Application ID                Version       Branch      Arch        Origin
+Thunderbird       org.mozilla.Thunderbird                     stable      x86_64      REDHAT
+Firefox           org.mozilla.firefox           128.11.0      stable      x86_64      REDHAT
+Thunderbird       org.mozilla.Thunderbird                     stable      x86_64      rhel
+Firefox           org.mozilla.firefox           128.11.0      stable      x86_64      rhel
+
+
+List the remote repositories that are available to all users:
+
+user@host:~$ flatpak remotes --system
+Name   Options
+fedora oci
+rhel   oci,no-gpg-verify
+List the remote repositories that are available to the current user:
+
+user@host:~$ flatpak remotes --user
+Name    Options
+flathub
+
+
+flatpak remote-add --user RHELUSER https://flatpaks.redhat.io/rhel.flatpakrepo
+flatpak  install Firefox --user
+flatpak run org.mozilla.firefox
+
+
+student@dev:~$ flatpak uninstall --delete-data org.mozilla.firefox
+
+
+        ID                         Branch       Op
+ 1. [-] org.mozilla.firefox        stable       r
+
+Uninstall complete.
+Delete data for org.mozilla.firefox? [y/n]: y

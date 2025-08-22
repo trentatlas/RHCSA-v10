@@ -1,0 +1,178 @@
+
+
+#rhc connect
+#rhc connect --disable-feature=analytics,remote-management
+# subscription-manager register
+
+#rhc disconnect
+
+
+
+--
+subscription-manager syspurpose usage --list
+
+
+Inspecting Identity Certificates
+# rct cat-cert /etc/pki/product-default/486.pem
+
+
+--
+#dnf install command-line-assistant
+
+
+
+
+--- 
+Location	Purpose
+/boot	Files to start the boot process.
+/dev	Special device files that the system uses to access hardware.
+/etc	System-specific configuration files.
+/home	Home directory, where regular users store their data and configuration files.
+/root	Home directory for the administrative superuser, root.
+
+/run	Runtime data for processes that started since the last boot. This data includes process ID files and lock files. The contents of this directory are re-created on reboot. This directory consolidates the /var/run and /var/lock directories from earlier versions of Red Hat Enterprise Linux.
+
+/tmp	A world-writable space for temporary files. Files that are not accessed, changed, or modified for 10 days are deleted from this directory automatically. The /var/tmp directory is also a temporary directory, in which files that are not accessed, changed, or modified in more than 30 days are deleted automatically.
+
+/usr	Installed software, shared libraries, including files, and read-only program data. Significant subdirectories in the /usr directory include the following commands:
+/usr/bin: User commands
+/usr/sbin: System administration commands
+/usr/local: Locally customized software
+
+/var	System-specific variable data should persist between boots. Files that dynamically change, such as databases, cache directories, log files, printer-spooled documents, and website content, might be found under the /var directory.
+
+
+
+
+
+
+
+
+
+Pattern Matching
+Pattern	Matches
+*	Any string of zero or more characters
+?	Any single character
+[abc…]	Any one character in the enclosed class (between the square brackets)
+[!abc…]	Any one character not in the enclosed class
+[^abc…]	Any one character not in the enclosed class
+[[:alpha:]]	Any alphabetic character
+[[:lower:]]	Any lowercase character
+[[:upper:]]	Any uppercase character
+[[:alnum:]]	Any alphabetic character or digit
+[[:punct:]]	Any printable character that is not a space or alphanumeric
+[[:digit:]]	Any single digit from 0 to 9
+[[:space:]]	Any single white space character, which might include tabs, newlines, carriage returns, form feeds, or spaces
+
+
+---
+Number	Channel name	Description
+0	stdin	Standard input	Read only
+1	stdout	Standard output	Write only
+2	stderr	Standard error Write only
+
+
+> FILE
+Redirect stdout to overwrite a file.
+
+>> FILE
+Redirect stdout to append to a file.
+
+2> FILE
+Redirect stderr to overwrite a file.
+
+2> /dev/null
+Discard stderr error messages by redirecting them to /dev/null
+
+> FILE 2>&1 
+&>FILE
+Redirect stdout and stderr to overwrite the same file.
+
+
+>> FILE2>&1
+&>>FILE
+Redirect stdout and stderr to append to the same file.
+
+EXAMPLES
+find /etc > my-results.txt 2> errors.txt
+$ find /etc -name passwd > /tmp/output 2> /tmp/errors
+find /etc -name passwd &> /tmp/all-message-output
+find /etc -name passwd >> /tmp/all-message-output 2>&1
+
+find / -name passwd 2>&1 | less
+
+
+
+
+-- SUDO
+To run the shell without the interactive scripts, use the sudo -s command.
+
+sudo -i command to access the root user's shell.
+
+
+--- UID RANGES
+UID 0
+The superuser (root) account UID.
+
+UID 1-200
+System account UIDs that are statically assigned to system processes.
+
+UID 201-999
+UIDs that are assigned to system processes that do not own files on this system. Software that requires an unprivileged UID is dynamically assigned a UID from this available pool.
+
+UID 1000+
+The UID range to assign to regular, unprivileged users.
+
+GID_MIN and GID_MAX variables specify in the /etc/login.defs
+
+root@host:~# chage -m 0 -M 90 -W 7 -I 14 sysadmin05
+
+-- 
+[root@rhel10-lab1 ~]# passwd -n 7 -w 14 -x 365 pod0
+
+[root@rhel10-lab1 ~]# chage -l pod0
+Last password change                                    : Jul 19, 2025
+Password expires                                        : Jul 19, 2026
+Password inactive                                       : never
+Account expires                                         : never
+Minimum number of days between password change          : 7
+Maximum number of days between password change          : 365
+Number of days of warning before password expires       : 14
+
+/etc/shadow
+pod0:$y$j9T$EoT7yedR7BHRbFt6ejSUT/$I18O5NLm2fjFVr7wnsWebN1b9g.0mX/3/7eFzpcLwq/:20288:7:365:14:::
+
+Each field of the entry is separated by a colon:
+
+ pod0 : Name of the user account.
+
+ $y$j…ziHC : The cryptographically hashed password of the user.
+
+  20222 : The days from the epoch when the password was last changed, where the epoch is 1970-01-01 in the UTC time zone.
+
+ 0 : The minimum days since the last password change before the user can change it again.
+
+ 99999 : The maximum days without a password change before the password expires. An empty field means that the password never expires.
+
+  7 : The number of days in advance to warn the user that their password will expire.
+
+  2 : The number of days without activity, starting with the day that the password expired, before the account is automatically locked.
+
+  20282 : The day when the account expires in days since the epoch. An empty field means that the account never expires.
+
+ The last field is typically empty and is reserved for future use.
+
+$y$j9T$qybndwEWzHhr0uTGAwO4Q0$OuNgGC5Mx2RrCO4JOXtR2VJfTA8dLPxa7NV1tvhziHC
+
+    y : The hashing algorithm in use for this password. A y indicates a yescrypt hash; a 6 indicates a SHA-512 hash; and a 5 indicates SHA-256. The format of the rest of the password depends on the algorithm.
+
+    j9T : Parameters that tune the behavior of how yescrypt hashes. These options are standardized by the tools that set passwords to ensure secure tuning. Other algorithms might not have this field.
+
+    qybndwEWzHhr0uTGAwO4Q0 : The salt in use to cryptographically hash the password; it is originally chosen at random.
+
+    OuNgGC5Mx2RrCO4JOXtR2VJfTA8dLPxa7NV1tvhziHC : The cryptographic hash of the user's password. This segment is the result of combining the salt and the plain text password, and then using the cryptographic hashing algorithm to generate the password hash.
+
+
+
+--
+

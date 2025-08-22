@@ -1,0 +1,32 @@
+Section	Content type			Description
+1	User commands			Both executable and shell programs
+2	System calls			Kernel routines that are invoked from user space
+3	Library functions		Provided by program libraries
+4	Special files			For example, device files
+5	File formats			For many configuration files and structures
+6	Games and screensavers		Historical section for amusing programs
+7	Conventions, standards, and miscellaneous	Protocols and file systems
+8	System administration and privileged commands	Maintenance tasks
+9	Linux kernel API				Internal kernel calls
+
+
+-- man -k 
+   equivalent to the apropos command
+
+$ man -k passwd
+chgpasswd (8)        - update group passwords in batch mode
+chpasswd (8)         - update passwords in batch mode 
+
+
+$man -K 
+(uppercase) option searches for the keyword in the full-text page, not only in the titles and descriptions.
+
+$ man -K passwd
+--Man-- next: cut(1p) [ view (return) | skip (Ctrl-D) | quit (Ctrl-C) ]
+
+
+#mandb
+0 man subdirectories contained newer manual pages.
+0 manual pages were added.
+0 stray cats were added.
+23 old database entries were purged.

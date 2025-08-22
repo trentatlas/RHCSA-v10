@@ -1,0 +1,101 @@
+
+REDHAT System Administration I CH13.
+
+
+$flatpak --version
+
+
+$podman login registry.redhat.io
+
+
+By default, the login credentials expire after the current session. However, you can permanently save the credentials for the current user:
+
+user@host:~$ cp $XDG_RUNTIME_DIR/containers/auth.json \
+$HOME/.config/flatpak/oci-auth.json
+
+You can also save the credentials system-wide.
+
+root@host:~# cp $XDG_RUNTIME_DIR/containers/auth.json \
+/etc/flatpak/oci-auth.json
+
+If you want regular users to access the remote repository with the same credentials, then you must change the file permissions on the authentication token:
+
+root@host:~# chmod 644 /etc/flatpak/oci-auth.json
+
+$flatpak remotes
+$flatpak remotes -d
+
+$flatpak remote-ls --app
+
+
+user@host:~$ flatpak remote-add --if-not-exists fedora \
+oci+https://registry.fedoraproject.org
+
+To confirm that the Fedora repository is added as an installation source, use the flatpak remotes command to list all the remote repositories that are configured on your system:
+
+user@host:~$ flatpak remotes
+Name   Options
+fedora system,oci
+rhel   system,oci,no-gpg-verify
+
+
+The following example shows configuring the Flathub repository in user mode:
+
+user@host:~$ flatpak remote-add --if-not-exists --user \
+flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+When multiple repositories are enabled, the flatpak remotes command can help to identify which repositories are available system-wide and which repositories are for the current user only.
+
+List the remote repositories that are available to all users:
+
+user@host:~$ flatpak remotes --system
+Name   Options
+fedora oci
+rhel   oci,no-gpg-verify
+
+List the remote repositories that are available to the current user:
+
+user@host:~$ flatpak remotes --user
+Name    Options
+flathub
+
+After adding a remote repository, you can list the repository's contents by using the flatpak remote-ls command:
+
+user@host:~$ flatpak remote-ls fedora --app
+Name                      Application ID                 Version   Branch
+Dialect                   app.drey.Dialect               2.4.2     stable
+Multiplication Puzzle     app.drey.MultiplicationPuzzle  14.0      stable
+pw3270                    br.app.pw3270.terminal         5.3       stable
+Dconf Editor              ca.desrt.dconf-editor          45.0.1    stable
+ 
+
+user@host:~$ flatpak remote-delete fedora
+The following refs are installed from remote 'fedora':
+
+   1) runtime/org.fedoraproject.Platform.GL.default/x86_64/f41
+   2) runtime/org.fedoraproject.Platform.Locale/x86_64/f41
+   3) app/org.filezillaproject.Filezilla/x86_64/stable
+   4) runtime/org.fedoraproject.Platform/x86_64/f41
+
+Remove them? [y/n]: y
+Uninstalling runtime/org.fedoraproject.Platform.GL.default/x86_64/f41
+Uninstalling app/org.filezillaproject.Filezilla/x86_64/stable
+Uninstalling runtime/org.fedoraproject.Platform/x86_64/f41
+Uninstalling runtime/org.fedoraproject.Platform.Locale/x86_64/f41
+
+Instead of permanently deleting a repository and uninstalling all software that was sourced from it, you can disable the repository. Disabling a repository does not require removing previously installed Flatpaks. To disable a repository, use the flatpak remote-modify command.
+
+user@host:~$ flatpak remote-modify --disable fedora
+
+You can also re-enable the repository later if, for example, you must update one of the packages.
+
+user@host:~$ flatpak remote-modify --enable fedora
+
+References
+
+flatpak(1), flatpak-remotes(1), flatpak-remote-add(1), flatpak-remote-ls(1), flatpak-remote-delete(1), and flatpak-remote-modify(1) man pages
+
+
+============= LAB ==========
+
+ 
