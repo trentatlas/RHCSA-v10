@@ -1,0 +1,196 @@
+
+
+Physical devices -> Physical Volumes (PVs) -> Volume Groups (VGs) -> Logical Volumes (LVs)
+
+
+/dev/nvme0n2 -> 
+
+
+
+PVs
+root@server1:~# parted /dev/nvme0n2 mklabel gpt mkpart one 1MiB 769Mib
+Information: You may need to update /etc/fstab.
+
+root@server1:~# parted /dev/nvme0n2  mkpart two 770MiB 1026Mib            
+Information: You may need to update /etc/fstab.
+
+root@server1:~# parted /dev/nvme0n2 unit mib print
+Model: VMware Virtual NVMe Disk (nvme)
+Disk /dev/nvme0n2: 7168MiB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+Disk Flags: 
+
+Number  Start    End      Size    File system  Name  Flags
+ 1      1.00MiB  769MiB   768MiB               one
+ 2      770MiB   1026MiB  256MiB               two
+
+
+root@server1:~# parted /dev/nvme0n2 set 1 lvm on
+Information: You may need to update /etc/fstab.
+
+root@server1:~# parted /dev/nvme0n2 set 2 lvm on                          
+Information: You may need to update /etc/fstab.
+
+root@server1:~# parted /dev/nvme0n2 unit mib print                        
+Model: VMware Virtual NVMe Disk (nvme)
+Disk /dev/nvme0n2: 7168MiB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+Disk Flags: 
+
+Number  Start    End      Size    File system  Name  Flags
+ 1      1.00MiB  769MiB   768MiB               one   lvm
+ 2      770MiB   1026MiB  256MiB               two   lvm
+
+root@server1:~# udevadm settle
+
+
+
+root@server1:~# lsblk /dev/nvme0n2
+NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+nvme0n2     259:1    0    7G  0 disk 
+├─nvme0n2p2 259:6    0  256M  0 part 
+└─nvme0n2p1 259:7    0  768M  0 part 
+
+
+
+root@server1:~# pvcreate /dev/nvme0n2p1 /dev/nvme0n2p2
+  Physical volume "/dev/nvme0n2p1" successfully created.
+  Physical volume "/dev/nvme0n2p2" successfully created.
+
+
+===== /dev/nvme0n2
+root@server1:~# parted /dev/nvme0n2 mklabel gpt
+Information: You may need to update /etc/fstab.
+
+root@server1:~# parted /dev/nvme0n2 mkpart ONE 1Mib 1025Mib                   
+Information: You may need to update /etc/fstab.
+
+root@server1:~# parted /dev/nvme0n2 set 1 lvm on
+Information: You may need to update /etc/fstab.
+
+root@server1:~# parted /dev/nvme0n2 unit mib print
+Model: VMware Virtual NVMe Disk (nvme)
+Disk /dev/nvme0n2: 7168MiB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+Disk Flags: 
+
+Number  Start    End      Size     File system  Name  Flags
+ 1      1.00MiB  1025MiB  1024MiB               ONE   lvm
+
+
+
+
+
+===== /dev/nvme0n3
+
+root@server1:~# parted /dev/nvme0n3 unit mib print
+Error: /dev/nvme0n3: unrecognised disk label
+Model: VMware Virtual NVMe Disk (nvme)                                    
+Disk /dev/nvme0n3: 7168MiB
+Sector size (logical/physical): 512B/512B
+Partition Table: unknown
+Disk Flags: 
+root@server1:~# parted /dev/nvme0n3 mklabel gpt
+Information: You may need to update /etc/fstab.
+
+root@server1:~# parted /dev/nvme0n3 unit mib print                        
+Model: VMware Virtual NVMe Disk (nvme)
+Disk /dev/nvme0n3: 7168MiB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+Disk Flags: 
+
+Number  Start  End  Size  File system  Name  Flags
+
+root@server1:~#
+
+root@server1:~# parted /dev/nvme0n3 mkpart ONE 1Mib 257Mib
+Information: You may need to update /etc/fstab.
+
+root@server1:~# parted /dev/nvme0n3 mkpart TWO 258Mib 514Mib             
+Information: You may need to update /etc/fstab.
+
+root@server1:~# parted /dev/nvme0n3 mkpart THREE 515Mib 771Mib           
+Information: You may need to update /etc/fstab.
+
+root@server1:~# parted /dev/nvme0n3 mkpart FOUR 772Mib 1028Mib        
+Information: You may need to update /etc/fstab.
+
+root@server1:~# parted /dev/nvme0n3 unit mib print            
+Model: VMware Virtual NVMe Disk (nvme)
+Disk /dev/nvme0n3: 7168MiB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+Disk Flags: 
+
+Number  Start    End      Size    File system  Name   Flags
+ 1      1.00MiB  257MiB   256MiB               ONE
+ 2      258MiB   514MiB   256MiB               TWO
+ 3      515MiB   771MiB   256MiB               THREE
+ 4      772MiB   1028MiB  256MiB               FOUR
+
+root@server1:~# lsblk /dev/nvme0n3
+NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+nvme0n3     259:5    0    7G  0 disk 
+├─nvme0n3p2 259:8    0  256M  0 part 
+├─nvme0n3p1 259:9    0  256M  0 part 
+├─nvme0n3p3 259:10   0  256M  0 part 
+└─nvme0n3p4 259:11   0  256M  0 part
+
+
+root@server1:~# parted /dev/nvme0n3 unit mib print
+Model: VMware Virtual NVMe Disk (nvme)
+Disk /dev/nvme0n3: 7168MiB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+Disk Flags: 
+
+Number  Start    End      Size    File system  Name   Flags
+ 1      1.00MiB  257MiB   256MiB               ONE
+ 2      258MiB   514MiB   256MiB               TWO
+ 3      515MiB   771MiB   256MiB               THREE
+ 4      772MiB   1028MiB  256MiB               FOUR
+
+root@server1:~# parted /dev/nvme0n3 set 1 lvm on
+Information: You may need to update /etc/fstab.
+
+root@server1:~# parted /dev/nvme0n3 set 2 lvm on                          
+Information: You may need to update /etc/fstab.
+
+root@server1:~# parted /dev/nvme0n3 set 3 lvm on                          
+Information: You may need to update /etc/fstab.
+
+root@server1:~# parted /dev/nvme0n3 set 4 lvm on                          
+Information: You may need to update /etc/fstab.
+
+root@server1:~# parted /dev/nvme0n3 unit mib print                        
+Model: VMware Virtual NVMe Disk (nvme)
+Disk /dev/nvme0n3: 7168MiB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+Disk Flags: 
+
+Number  Start    End      Size    File system  Name   Flags
+ 1      1.00MiB  257MiB   256MiB               ONE    lvm
+ 2      258MiB   514MiB   256MiB               TWO    lvm
+ 3      515MiB   771MiB   256MiB               THREE  lvm
+ 4      772MiB   1028MiB  256MiB               FOUR   lvm
+
+
+root@server1:~# pvcreate /dev/nvme0n3p5
+  Physical volume "/dev/nvme0n3p5" successfully created.
+root@server1:~# pvcreate /dev/nvme0n3p4
+  Physical volume "/dev/nvme0n3p4" successfully created.
+root@server1:~# pvcreate /dev/nvme0n3p3
+  Physical volume "/dev/nvme0n3p3" successfully created.
+root@server1:~# pvcreate /dev/nvme0n3p2
+  Physical volume "/dev/nvme0n3p2" successfully created.
+root@server1:~# pvcreate /dev/nvme0n3p1
+  Physical volume "/dev/nvme0n3p1" successfully created.
+
+
+
+

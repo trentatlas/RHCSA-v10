@@ -1,0 +1,7 @@
+
+
+-- SWAP 
+ # swapoff -v /dev/vg01/swap
+ #lvextend -L +300M /dev/vg01/swap
+ #mkswap /dev/vg01/swap
+ #swapon /dev/vg01/swap

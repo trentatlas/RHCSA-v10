@@ -1,0 +1,9 @@
+
+
+
+/etc/lvm/devices/backup
+
+
+delete
+-- # lvmdevices --delpvid <PVID> BE CAREFUL
+-- # lvmdevices --update
