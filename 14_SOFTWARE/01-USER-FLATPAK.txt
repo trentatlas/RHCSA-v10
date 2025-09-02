@@ -1,0 +1,14 @@
+
+loginctl enable linger student1
+
+mkdir -p  .config/flatpak
+
+flatpak search --user firefox
+flatpak install --user org.mozilla.firefox
+flatpak run org.mozilla.firefox
+
+
+flatpak search --user chrom
+flatpak install --user org.chromium.Chromium
+flatpak run org.chromium.Chromium
+
