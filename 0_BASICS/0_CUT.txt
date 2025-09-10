@@ -1,0 +1,27 @@
+
+https://www.youtube.com/watch?v=GYP2T34v56E
+
+-- cut /etc/passwd
+student@server1:~/Documents/MY$ cut -d ":" -f 1,7  /etc/passwd | head
+root:/bin/bash
+bin:/usr/sbin/nologin
+daemon:/usr/sbin/nologin
+adm:/usr/sbin/nologin
+lp:/usr/sbin/nologin
+sync:/bin/sync
+shutdown:/sbin/shutdown
+halt:/sbin/halt
+mail:/usr/sbin/nologin
+operator:/usr/sbin/nologin
+
+student@server1:~/Documents/MY$ cut -d ":" -f 1  /etc/passwd | head
+root
+bin
+daemon
+adm
+lp
+sync
+shutdown
+halt
+mail
+operator

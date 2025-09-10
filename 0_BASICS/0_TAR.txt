@@ -1,0 +1,69 @@
+
+
+- Create TAR
+
+-f  File name type of the archive file
+
+tar -cvf student.tar /home/student
+tar -cvzf student.tar.gz /home/student
+tar -cvzf student.tgz /home/student
+tar -cvjf student.tar.bz2 /home/student
+
+
+-C restore into another DIR
+tar -xvzf student.tgz  -C /home/student/RESTORE/
+
+- just extract one dir or file back into $HOME
+
+root@server1:~# tar -xvzf student.tgz  -C / home/student/Documents/alsa-utils/
+home/student/Documents/alsa-utils/
+home/student/Documents/alsa-utils/COPYING
+home/student/Documents/alsa-utils/ChangeLog
+home/student/Documents/alsa-utils/README.md
+home/student/Documents/alsa-utils/TODO
+home/student/Documents/alsa-utils/alsamixer.rc.example
+root@server1:~# ll /home/student/Documents/
+total 0
+drwxr-xr-x. 2 student student 95 Aug 22 14:32 alsa-utils
+
+
+
+- extract a couple of files or dir back into $HOME
+root@server1:~# tar -xvzf student.tgz  -C / "home/student/Documents/appstream/" "home/student/Documents/adcli/"
+home/student/Documents/adcli/
+home/student/Documents/adcli/AUTHORS
+home/student/Documents/adcli/COPYING
+home/student/Documents/adcli/ChangeLog
+home/student/Documents/adcli/NEWS
+home/student/Documents/adcli/README
+home/student/Documents/appstream/
+home/student/Documents/appstream/AUTHORS
+root@server1:~# ll /home/student/Documents/
+total 0
+drwxr-xr-x. 2 student student 79 Aug 22 14:30 adcli
+drwxr-xr-x. 2 student student 95 Aug 22 14:32 alsa-utils
+drwxr-xr-x. 2 student student 21 Aug 22 14:30 appstream
+
+
+-- WILDCARD
+root@server1:~# tar -xvzf student.tgz  -C / --wildcards '*README*'
+
+
+home/student/Documents/xprop/README.md
+home/student/Documents/xz/README
+home/student/Documents/yelp-tools/README.md
+home/student/Documents/yelp-xsl/README.md
+home/student/Documents/zip/README
+home/student/Documents/zip/README.CR
+home/student/Documents/zsh/README
+
+
+root@server1:~# ll /home/student/Documents/xprop/
+total 4
+-rw-r--r--. 1 student student 745 Feb  3  2024 README.md
+
+
+
+-- EXCLUDE
+tar --exclude '*README*' - zcvf backup.tar.gz /home/student
+

@@ -1,0 +1,122 @@
+dnf config-manager --add-repo=/REPO/AppStream/
+dnf config-manager --add-repo=/REPO/BaseOS/
+dnf config-manager --add-repo=http://rhelmstr/pub/rhel-10-for-aarch64-appstream-rpms
+dnf config-manager --add-repo=http://rhelmstr/pub/rhel-10-for-aarch64-baseos-rpms
+
+
+root@server1:~# cat /etc/yum.repos.d/REPO_AppStream.repo 
+[REPO_AppStream]
+name=created by dnf config-manager from file:///REPO/AppStream
+baseurl=file:///REPO/AppStream
+enabled=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+gpgcheck=1
+
+
+-- #dnf list http*
+root@server1:~# dnf list http*
+Updating Subscription Management repositories.
+Unable to read consumer identity
+
+
+Last metadata expiration check: 1 day, 0:19:42 ago on Fri 05 Sep 2025 12:25:28 PM EDT.
+Available Packages
+httpcomponents-client.noarch                      4.5.14-9.el10                           REPO_AppStream                                 
+httpcomponents-client.noarch                      4.5.14-9.el10                           rhelmstr_pub_rhel-10-for-aarch64-appstream-rpms
+httpcomponents-core.noarch                        4.4.16-9.el10                           REPO_AppStream                                 
+httpcomponents-core.noarch                        4.4.16-9.el10                           rhelmstr_pub_rhel-10-for-aarch64-appstream-rpms
+httpd.aarch64                                     2.4.63-1.el10_0.2                       rhelmstr_pub_rhel-10-for-aarch64-appstream-rpms
+httpd-core.aarch64                                2.4.63-1.el10_0.2                       rhelmstr_pub_rhel-10-for-aarch64-appstream-rpms
+httpd-devel.aarch64                               2.4.63-1.el10_0.2                       rhelmstr_pub_rhel-10-for-aarch64-appstream-rpms
+httpd-filesystem.noarch                           2.4.63-1.el10_0.2                       rhelmstr_pub_rhel-10-for-aarch64-appstream-rpms
+httpd-manual.noarch                               2.4.63-1.el10_0.2                       rhelmstr_pub_rhel-10-for-aarch64-appstream-rpms
+httpd-tools.aarch64                               2.4.63-1.el10_0.2                       rhelmstr_pub_rhel-10-for-aarch64-appstream-rpms
+
+-- #dnf list selinux*
+root@server1:~# dnf list selinux*
+Updating Subscription Management repositories.
+Unable to read consumer identity
+
+
+Last metadata expiration check: 1 day, 0:20:33 ago on Fri 05 Sep 2025 12:25:28 PM EDT.
+Installed Packages
+selinux-policy.noarch                               40.13.26-1.el10                       @anaconda                                      
+selinux-policy-targeted.noarch                      40.13.26-1.el10                       @anaconda                                      
+Available Packages
+selinux-policy-devel.noarch                         40.13.26-1.el10                       REPO_AppStream                                 
+selinux-policy-devel.noarch                         40.13.26-1.el10                       rhelmstr_pub_rhel-10-for-aarch64-appstream-rpms
+selinux-policy-doc.noarch                           40.13.26-1.el10                       REPO_BaseOS                                    
+selinux-policy-doc.noarch                           40.13.26-1.el10                       rhelmstr_pub_rhel-10-for-aarch64-baseos-rpms   
+selinux-policy-mls.noarch                           40.13.26-1.el10                       REPO_BaseOS                                    
+selinux-policy-mls.noarch                           40.13.26-1.el10                       rhelmstr_pub_rhel-10-for-aarch64-baseos-rpms   
+selinux-policy-sandbox.noarch                       40.13.26-1.el10                       REPO_BaseOS                                    
+selinux-policy-sandbox.noarch                       40.13.26-1.el10                       rhelmstr_pub_rhel-10-for-aarch64-baseos-rpms
+
+
+-- #dnf search all seinfo
+
+root@server1:~# dnf search all seinfo
+Updating Subscription Management repositories.
+Unable to read consumer identity
+
+
+Last metadata expiration check: 1 day, 0:23:18 ago on Fri 05 Sep 2025 12:25:28 PM EDT.
+====================================================== Description Matched: seinfo ======================================================
+setools-console.aarch64 : Policy analysis command-line tools for SELinux
+setools-console-analyses.aarch64 : Policy analysis command-line tools for SELinux
+
+
+-- #dnf provides sealert
+Updating Subscription Management repositories.
+Unable to read consumer identity
+
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+Last metadata expiration check: 1 day, 0:23:57 ago on Fri 05 Sep 2025 12:25:28 PM EDT.
+setroubleshoot-server-3.3.35-1.el10.aarch64 : SELinux troubleshoot server
+Repo        : @System
+Matched from:
+Filename    : /usr/bin/sealert
+
+setroubleshoot-server-3.3.35-1.el10.aarch64 : SELinux troubleshoot server
+Repo        : REPO_AppStream
+Matched from:
+Filename    : /usr/bin/sealert
+
+setroubleshoot-server-3.3.35-1.el10.aarch64 : SELinux troubleshoot server
+Repo        : rhelmstr_pub_rhel-10-for-aarch64-appstream-rpms
+Matched from:
+Filename    : /usr/bin/sealert
+
+
+dnf provides */Containerfile
+
+root@server1:~# dnf provides */Containerfile
+Updating Subscription Management repositories.
+Unable to read consumer identity
+
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+Last metadata expiration check: 0:05:15 ago on Sat 06 Sep 2025 12:51:35 PM EDT.
+buildah-tests-2:1.39.0-1.el10.aarch64 : Tests for buildah
+Repo        : REPO_AppStream
+
+
+
+root@server1:~# dnf search all buildah
+Updating Subscription Management repositories.
+Unable to read consumer identity
+
+
+Last metadata expiration check: 0:05:45 ago on Sat 06 Sep 2025 12:51:35 PM EDT.
+=============================================== Name & Description & URL Matched: buildah ===============================================
+buildah.aarch64 : A command line tool used for creating OCI Images
+========================================== Name & Summary & Description & URL Matched: buildah ==========================================
+buildah-tests.aarch64 : Tests for buildah
+================================================ Summary & Description Matched: buildah =================================================
+container-tools.noarch : A meta-package witch container tools such as podman, buildah, skopeo, etc.
+containers-common-extra.noarch : Extra dependencies for Podman and Buildah
+===================================================== Description Matched: buildah ======================================================
+containers-common.noarch : Common configuration and documentation for containers
+podman.aarch64 : Manage Pods, Containers and Container Images
+

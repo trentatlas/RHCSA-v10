@@ -1,0 +1,113 @@
+Brand   Model     RAM
+Apple   MacBook    32
+Apple   iPad       16
+Dell    XPS        32
+Dell    Inspiron  128
+Lenovo  ThinkPad  128
+Lenovo  Yoga      256
+Apple   MacBook    64
+
+
+student@server1:~/Documents/MY$ awk '{print $1 "\t" $3 }' AWK-DATA.txt 
+Brand   RAM
+Apple   32
+Apple   16
+Dell    32
+Dell    128
+Lenovo  128
+Lenovo  256
+Apple   64
+
+student@server1:~/Documents/MY$ awk '{print $NF}' AWK-DATA.txt 
+RAM
+32
+16
+32
+128
+128
+256
+64
+
+
+student@server1:~/Documents/MY$ awk -F ":" '{print $1'} /etc/passwd | head
+root
+bin
+daemon
+adm
+lp
+sync
+shutdown
+halt
+mail
+operator
+
+
+student@server1:~/Documents/MY$ awk -F ":" '{print $NF'} /etc/passwd | head
+/bin/bash
+/usr/sbin/nologin
+/usr/sbin/nologin
+/usr/sbin/nologin
+/usr/sbin/nologin
+/bin/sync
+/sbin/shutdown
+/sbin/halt
+/usr/sbin/nologin
+/usr/sbin/nologin
+
+
+
+student@server1:~/Documents/MY$ awk -F ":" '{print $1 "\t"  $NF'} /etc/passwd | head
+root    /bin/bash
+bin     /usr/sbin/nologin
+daemon  /usr/sbin/nologin
+adm     /usr/sbin/nologin
+lp      /usr/sbin/nologin
+sync    /bin/sync
+shutdown        /sbin/shutdown
+halt    /sbin/halt
+mail    /usr/sbin/nologin
+operator        /usr/sbin/nologin
+
+
+
+student@server1:~/Documents/MY$ cat /etc/shells 
+/bin/sh
+/bin/bash
+/usr/bin/sh
+/usr/bin/bash
+/usr/bin/tmux
+/bin/tmux
+/usr/bin/zsh
+/bin/zsh
+student@server1:~/Documents/MY$ awk -F "/" '/^\// {print $NF}' /etc/shells 
+sh
+bash
+sh
+bash
+tmux
+tmux
+zsh
+zsh
+
+
+
+student@server1:~/Documents/MY$ df -h | awk '{ print $4 "\t " $5  " " $1 }'
+Avail    Use% Filesystem
+3.6G     56% /dev/mapper/ROOTVG-ROOTVG
+4.0M     0% devtmpfs
+3.9G     0% tmpfs
+224K     13% efivarfs
+1.6G     1% tmpfs
+1.0M     0% tmpfs
+417M     95% /dev/mapper/ROOTVG-ISOLV
+564M     42% /dev/nvme0n1p2
+1010M    2% /dev/nvme0n1p1
+309M     32% /dev/mapper/ROOTVG-home
+0        100% /dev/loop0
+414M     8% /dev/mapper/ROOTVG-opt
+414M     8% /dev/mapper/ROOTVG-tmp
+217M     9% /dev/mapper/VG01-LV01
+1.7G     16% /dev/mapper/ROOTVG-var
+414M     8% /dev/mapper/ROOTVG-var_www
+1.0M     0% tmpfs
+792M     1% tmpfs

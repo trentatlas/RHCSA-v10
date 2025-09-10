@@ -1,0 +1,42 @@
+
+Relative and Absolute 
+
+https://www.youtube.com/watch?v=M3JirqAPg9g
+
+https://www.youtube.com/watch?v=SxMClu4QfdQ
+
+Any filename $PATH that begins with / is an absolute path
+
+-- RELATIVE PATH
+
+cd /usr/share/doc/nmap/ 
+ll nmap.usage.txt
+cat nmap.usage.txt
+
+-- ABSOLUTE
+
+ll , cat , etc....
+/usr/share/doc/nmap/nmap.usage.txt
+
+
+
+
+
+
+EG.
+root@server1:~# tar -cvf namp-man.tar /usr/share/doc/nmap
+tar: Removing leading `/' from member names
+/usr/share/doc/nmap/
+/usr/share/doc/nmap/README
+/usr/share/doc/nmap/nmap.usage.txt
+
+
+root@server1:~# tar -xvf namp-man.tar -C /
+usr/share/doc/nmap/
+usr/share/doc/nmap/README
+usr/share/doc/nmap/nmap.usage.txt
+
+root@server1:~# ll /usr/share/doc/nmap
+total 12
+-rw-r--r--. 1 root root 5980 Oct 28  2024 nmap.usage.txt
+-rw-r--r--. 1 root root  163 Nov  5  2015 README
