@@ -1,0 +1,23 @@
+
+
+-- UNIT
+
+root@rhellab1:~# systemctl list-
+list-automounts    list-jobs          list-paths         list-timers        list-units         
+list-dependencies  list-machines      list-sockets       list-unit-files   
+
+
+[root@rhellab1 ~]# systemctl list-units --type=service | more
+[root@rhellab1 ~]# systemctl list-units --type=service --all | more
+
+
+- service
+
+- socket
+associated with port 8000 eg. 
+connection made to 8000 - start foo.service
+
+- timer
+bar.timer -> bar.timer 2300 -> bar.service
+
+

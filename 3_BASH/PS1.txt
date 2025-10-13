@@ -1,0 +1,18 @@
+
+cat .bashrc
+export PS1="\u@\h \$"
+
+\d: Current date in "Weekday Month Date" format.
+\h: Hostname (short).
+\H: Hostname (full).
+\n: Newline.
+\s: Shell name (e.g., bash).
+\t: Current time in 24-hour HH:MM:SS format.
+\T: Current time in 12-hour HH:MM:SS format.
+\@: Current time in 12-hour am/pm format.
+\u: Username.
+\v: Bash version (e.g., 4.4.23(1)-release).
+\V: Bash version, release, and patch level.
+\w: Current working directory (full path).
+\W: Current working directory (basename only).
+\$: Displays # if the effective UID is 0 (root), otherwise $.

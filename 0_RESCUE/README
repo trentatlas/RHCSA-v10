@@ -1,0 +1,9 @@
+
+- init /bin/bash
+
+- rescue
+systemd.unit=rescue.target
+
+- emergency
+systemd.unit=emergency.target
+
