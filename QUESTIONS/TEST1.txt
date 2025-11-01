@@ -1,0 +1,99 @@
+
+
+-- RESCUE
+change password and fix /etc/fstab
+
+-- IPV4 192.168.192.201/24
+
+-- IPV6
+fd01::121/64
+
+-- REPO DNF/YUM
+ 
+-ISO
+-MSTR
+
+-- INSTALL FLATPAK
+
+-- FIREWALLD from BLOCK to PUBLIC
+root@rhelsrv1:/usr/local/sbin# systemctl is-enabled firewalld.service
+enabled
+root@rhelsrv1:/usr/local/sbin# systemctl is-active firewalld.service
+active
+
+-- MAKE JOURNALD persistant 
+
+-- CHRONYD
+tick.usno.navy.mil
+tock.
+ntp2
+
+--  CHANGE TZ to US/Pacific
+
+-- USER ADD
+All new users get WELCOME FILE
+90 days
+
+
+-- Apache / FIREWALLD
+Install httpd and LISTEN on public Interface
+
+
+firewall-cmd --add-service=http --zone=public --permanent
+firewall-cmd --add-service=https --zone=public --permanent
+firewall-cmd --runtime-to-permanent 
+firewall-cmd --reload
+
+
+-- TUNED
+ 
+set from balanced to throughput-performance
+
+. # tuned-adm  profile throughput-performance
+. # tuned-adm  active
+
+-- sysctl 
+
+. ./etc/sysctl.d
+# systemctl restart systemd-sysctl.service
+# sysctl --system
+
+
+DISABLE CORE DUMPS
+/usr/lib/sysctl.d/50-coredump.conf
+kernel.core_pattern = |/bin/false
+
+enable ipv4 and ipv6 forwarding
+root@rhelsrv1:/etc/sysctl.d# cat 98-IPFORWARD.conf 
+net.ipv4.ip_forward = 1
+net.ipv6.conf.all.forwarding = 1
+
+
+-- USERS
+. create student1 user UID 2001
+in the students group 2000
+
+flatpak
+
+
+. create prof1 user UID 3001
+wheel group - professors group 3000
+
+
+
+create ADMIN group 5000
+admin1 and admin2 
+wheel
+
+create DEV group 6000
+dev1 and dev2
+no wheel
+
+
+
+
+
+- only admins have access to CRON
+
+
+

@@ -1,0 +1,24 @@
+
+
+NVE2/SDB
+- partition type gpt not dos/mbr
+
+
+
+EXAM1 
+2GiB LVM MYVG
+500Mib MYLV
+/mylv ext4
+
+2GB ADMINLVG DEVVG
+
+/opt/admins xfs  768Mib 
+/opt/developers xfs 500Mib
+
+
+
+
+
+
+
+
