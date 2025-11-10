@@ -13,6 +13,15 @@ fd01::121/64
 -ISO
 -MSTR
 
+
+- copy /usr/share/doc to student $HOME
+
+-install kernel-doc
+-copy kernel doc man to /opt/kernel for both versions
+
+
+
+
 -- INSTALL FLATPAK
 
 -- FIREWALLD from BLOCK to PUBLIC
