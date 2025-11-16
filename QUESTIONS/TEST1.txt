@@ -13,6 +13,8 @@ fd01::121/64
 -ISO
 -MSTR
 
+-- INSTALL htop from NFS repo using autofs
+
 
 - copy /usr/share/doc to student $HOME
 
@@ -29,6 +31,10 @@ root@rhelsrv1:/usr/local/sbin# systemctl is-enabled firewalld.service
 enabled
 root@rhelsrv1:/usr/local/sbin# systemctl is-active firewalld.service
 active
+
+- allow http/https
+- allow 10000/udp
+- block ICMP 13 / 14
 
 -- MAKE JOURNALD persistant 
 
@@ -62,6 +68,8 @@ set from balanced to throughput-performance
 . # tuned-adm  active
 
 -- sysctl 
+
+DISABLE KERNEL DUMP
 
 . ./etc/sysctl.d
 # systemctl restart systemd-sysctl.service
