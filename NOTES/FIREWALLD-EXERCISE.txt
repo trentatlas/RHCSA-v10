@@ -1,5 +1,25 @@
 
 -- GATHER INFO
+/etc/firewalld/firewalld.conf
+
+# firewalld config file
+
+# default zone
+# The default zone used if an empty zone string is used.
+# Default: public
+DefaultZone=block
+
+root@rhelsrv1:~# firewall-cmd --get-default-zone 
+block
+
+root@rhelsrv1:~# firewall-cmd --reset-to-defaults 
+success
+
+root@rhelsrv1:~# firewall-cmd --get-default-zone 
+public
+root@rhelsrv1:~# firewall-cmd --reload 
+success
+========================================
 
 root@rhelsrv1:~# firewall-cmd --state
 running
