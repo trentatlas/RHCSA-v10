@@ -1,0 +1,65 @@
+
+firewall-cmd --state
+
+firewall-cmd --get-zones
+firewall-cmd --get-default-zone
+firewall-cmd --get-active-zones
+firewall-cmd --list-all-zones
+
+man firewall-cmd
+man firewalld
+
+-- ZONES
+/usr/lib/firewalld/zones
+
+firewall-cmd --get-zones
+firewall-cmd --list-all-zones
+
+firewall-cmd --info-zone=internal
+
+firewall-cmd --get-default-zone
+
+firewall-cmd --info-zone=dmz
+
+-- SERVICES
+/usr/lib/firewalld/services/
+
+#firewall-cmd --get-services
+#firewall-cmd --permanent --add-service={http,https}
+#firewall-cmd --permanent --remove-service={http,https}
+
+# firewall-cmd --add-port=10000/tcp
+# firewall-cmd --permanent --add-port=10000/tcp
+# firewall-cmd --add-port={636/tcp,637/tcp,638/udp}
+
+
+
+-- ICMP
+https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml
+Type 13 — Timestamp
+Type 14 — Timestamp Reply
+https://access.redhat.com/security/cve/cve-1999-0524
+timestamp-reply timestamp-request
+# firewall-cmd --info-zone=public
+# firewall-cmd --get-icmptypes
+# firewall-cmd --info-icmptype=network-redirectnetwork-redirect  destination: ipv4
+# firewall-cmd --query-icmp-block=host-redirect
+# firewall-cmd --add-icmp-block=host-redirect
+# firewall-cmd --query-icmp-block=host-redirect
+
+firewall-cmd --info-zone=public
+firewall-cmd --add-icmp-block={host-redirect,network-redirect}
+
+
+-- LOGS
+firewall-cmd --get-log-denied
+firewall-cmd --set-log-denied=all
+
+
+unicast, broadcast, and multicast
+firewall-cmd --set-log-denied=multicast
+
+
+-- RELOAD
+# firewall-cmd --reload
+# firewall-cmd --runtime-to-permanent 

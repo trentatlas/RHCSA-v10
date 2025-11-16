@@ -1,0 +1,68 @@
+DAY 4 - OREILLY
+Module 1
+-
+NFS SERVER - nfs-utils
+dnf install nfs-utils
+
+/etc/hosts
+192.168.192.100 rhelmstr.aegisdawn.com  rhelmstr
+192.168.192.201 rhelsrv1.aegisdawn.com  rhelsrv1
+
+
+- /etc/exports
+/nfsdata *(rw,no_root_squash)
+/home/ldap *(rw,no_root_squash)
+
+- enable
+systemctl enable --now nfs-server
+
+firewall-cmd --add-server nfs --permanent
+firewall-cmd --add-server mountd --permanent
+firewall-cmd --add-server rpc-bind --permanent
+
+
+- showmount  
+showmount -e nfsserver
+
+mount nfsserver:/nfsdata /mnt
+
+
+- autofs.service
+
+dnf install autofs
+
+/etc/auto.master
+/nfsdata /etc/auto.nfsdata
+
+/etc/auto.misc - example
+
+/etc/auto.nfsdata
+data -rw nfsserver:/nfsdata
+
+systemctl enable --now autofs
+
+cd /nfsserver ; cd data
+ls -l
+
+/misc   /etc/auto.misc
+/nfsrepo /etc/auto.nfsrepo
+root@rhelsrv1:/etc# ls -l /etc/auto.master
+-rw-r--r--. 1 root root 1316 Nov 14 13:55 /etc/auto.master
+
+root@rhelsrv1:/etc# cat /etc/auto.nfsrepo
+repo    -rw     rhelmstr:/nfsrepo
+
+
+
+
+
+- WILDCARD *&
+/home/ldap
+
+/etc/auto.master
+/etc/auto.ldap
+
+* -rw nfsserver:/home/ldap/&
+
+restart autofs
+

@@ -1,0 +1,13 @@
+
+
+- systemctl list-units -t target
+
+sound.target
+
+
+- ISOLATE targets 100
+emergency
+rescue 
+multi-user
+graphical
+

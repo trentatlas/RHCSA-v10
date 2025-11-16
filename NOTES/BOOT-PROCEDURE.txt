@@ -1,0 +1,20 @@
+
+
+FIRMWARE ( UEFI )
+|
+> BOOT DISK
+| rescue disk ( ISO )
+|
+| > GRUB2 [ BOOT MENU ]
+|   rescue kernel
+|
+| > KERNEL
+| > INITRAMFS
+|  init=/bin/bash
+|
+| > SYSTEMD
+|  systemd.unit=emergency.target
+|  systemd.unit=rescue.target
+|  
+| > default.target
+

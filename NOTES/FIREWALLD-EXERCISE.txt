@@ -1,0 +1,87 @@
+
+-- GATHER INFO
+
+root@rhelsrv1:~# firewall-cmd --state
+running
+root@rhelsrv1:~# firewall-cmd --get-default-zone 
+public
+
+root@rhelsrv1:~# firewall-cmd --list-services
+cockpit dhcpv6-client ssh
+
+root@rhelsrv1:~# firewall-cmd --list-services --zone=public
+cockpit dhcpv6-client ssh
+
+root@rhelsrv1:~# firewall-cmd  --list-all --zone=public
+public (default, active)
+  target: default
+  ingress-priority: 0
+  egress-priority: 0
+  icmp-block-inversion: no
+  interfaces: ens160
+  sources: 
+  services: cockpit dhcpv6-client ssh
+  ports: 
+  protocols: 
+  forward: yes
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+
+
+ls -l /usr/lib/firewalld/
+
+-- DESCRIBE
+
+root@rhelsrv1:/etc/sysconfig# firewall-cmd --info-service=smtp
+smtp
+  ports: 25/tcp
+  protocols: 
+  source-ports: 
+  modules: 
+  destination: 
+  includes: 
+  helpers: 
+
+
+--  ADD SERVICE
+/usr/lib/firewalld/services
+root@rhelsrv1:~# firewall-cmd --add-service=http --permanent 
+success
+root@rhelsrv1:~# firewall-cmd --add-service=https --permanent 
+success
+
+-- ADD PORT
+root@rhelsrv1:~# firewall-cmd --add-port=10000/tcp --permanent 
+success
+root@rhelsrv1:~# firewall-cmd --reload
+success
+root@rhelsrv1:~# firewall-cmd --list-all --zone=public 
+public (default, active)
+  target: default
+  ingress-priority: 0
+  egress-priority: 0
+  icmp-block-inversion: no
+  interfaces: ens160
+  sources: 
+  services: cockpit dhcpv6-client http https ssh
+  ports: 10000/tcp
+  protocols: 
+  forward: yes
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+
+
+-- ICMP
+ls /usr/lib/firewalld/icmptypes/
+#firewall-cmd --get-icmptypes
+#firewall-cmd --add-icmp-block=timestamp-reply --zone=public --permanent
+#firewall-cmd --add-icmp-block=timestamp-request --zone=public --permanent
+
+
+

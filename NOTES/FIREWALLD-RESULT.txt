@@ -1,0 +1,111 @@
+
+firewall-cmd --state
+
+root@rhelsrv1:~# firewall-cmd --state
+running
+
+
+firewall-cmd --get-default-zone
+firewall-cmd --get-active-zones
+
+root@rhelsrv1:~# firewall-cmd --get-default-zone 
+public
+root@rhelsrv1:~# firewall-cmd --get-active-zones 
+public (default)
+  interfaces: ens160
+
+firewall-cmd --get-zones
+firewall-cmd --list-all-zones
+
+root@rhelsrv1:~# firewall-cmd --get-zones 
+block dmz drop external home internal nm-shared public trusted work
+
+root@rhelsrv1:~# firewall-cmd --list-all-zones
+[VERBOSE OUTPUT ]
+
+man firewall-cmd
+man firewalld
+
+-- ZONES
+/usr/lib/firewalld/zones
+
+firewall-cmd --get-zones
+firewall-cmd --list-all-zones
+
+firewall-cmd --info-zone=public
+root@rhelsrv1:~# firewall-cmd --info-zone=public
+public (default, active)
+  target: default
+  ingress-priority: 0
+  egress-priority: 0
+  icmp-block-inversion: no
+  interfaces: ens160
+  sources: 
+  services: cockpit dhcpv6-client ssh
+  ports: 
+  protocols: 
+  forward: yes
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules
+
+firewall-cmd --get-default-zone
+
+
+-- SERVICES
+/usr/lib/firewalld/services/
+
+#firewall-cmd --get-services
+
+root@rhelsrv1:~# firewall-cmd --info-service=smtp
+smtp
+  ports: 25/tcp
+  protocols: 
+  source-ports: 
+  modules: 
+  destination: 
+  includes: 
+  helpers: 
+
+
+
+#firewall-cmd --permanent --add-service={http,https}
+#firewall-cmd --permanent --remove-service={http,https}
+
+# firewall-cmd --add-port=10000/tcp
+# firewall-cmd --permanent --add-port=10000/tcp
+# firewall-cmd --add-port={636/tcp,637/tcp,638/udp}
+
+
+
+-- ICMP
+https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml
+Type 13 — Timestamp
+Type 14 — Timestamp Reply
+https://access.redhat.com/security/cve/cve-1999-0524
+timestamp-reply timestamp-request
+# firewall-cmd --info-zone=public
+# firewall-cmd --get-icmptypes
+# firewall-cmd --info-icmptype=network-redirectnetwork-redirect  destination: ipv4
+# firewall-cmd --query-icmp-block=host-redirect
+# firewall-cmd --add-icmp-block=host-redirect
+# firewall-cmd --query-icmp-block=host-redirect
+
+firewall-cmd --info-zone=public
+firewall-cmd --add-icmp-block={host-redirect,network-redirect}
+
+
+-- LOGS
+firewall-cmd --get-log-denied
+firewall-cmd --set-log-denied=all
+
+
+unicast, broadcast, and multicast
+firewall-cmd --set-log-denied=multicast
+
+
+-- RELOAD
+# firewall-cmd --reload
+# firewall-cmd --runtime-to-permanent 

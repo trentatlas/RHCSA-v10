@@ -1,0 +1,5 @@
+
+GRUB
+
+/boot/loader/entries
+
