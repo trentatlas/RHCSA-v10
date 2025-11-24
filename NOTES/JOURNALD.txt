@@ -1,0 +1,14 @@
+
+
+# systemd-machine-id-setup
+systemctl restart systemd-journald.service
+
+
+# systemctl stop systemd-journald.service
+# rm -rf /run/log/journal/*
+# rm -rf /var/log/journal/*
+
+# mkdir -p /var/log/journal
+# systemd-tmpfiles --create --prefix /var/log/journal
+
+# systemctl restart systemd-journald.service

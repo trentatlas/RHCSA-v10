@@ -1,0 +1,6 @@
+
+crontab -e
+crontab -l
+
+crontab -u kramer -l
+

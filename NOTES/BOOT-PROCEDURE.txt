@@ -15,6 +15,14 @@ FIRMWARE ( UEFI )
 | > SYSTEMD
 |  systemd.unit=emergency.target
 |  systemd.unit=rescue.target
-|  
+|  rd.break
+   EMERGENCY MODE
+   #chroot /sysroot
+
+   -- chroot only avaible when kernel is re-generated using dracut using debug 
+   https://access.redhat.com/solutions/7121729
+   # dracut --force --add debug /boot/initramfs-$(uname -r).img $(uname -r)
+   # systemctl reboot
+     
 | > default.target
 

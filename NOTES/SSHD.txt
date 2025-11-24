@@ -1,0 +1,4 @@
+PermitRootLogin yes
+#PermitRootLogin prohibit-password
+#PermitEmptyPasswords no
+# the setting of "PermitRootLogin prohibit-password".

@@ -1,0 +1,27 @@
+
+-- THIN
+lvcreate --type thin-pool --size 50G --name 1thinpool THINVG
+In Red Hat Enterprise Linux 9, how can you create a thin-provisioned volume named '1thinvol' with a size of 1 TB using the 'thin_pool' feature?
+
+???
+
+
+-- FIND
+find . -type f -size +5M -exec cp {} /tmp/files \;
+
+
+-- TIME
+root@rhelsrv1:~# timedatectl list-timezones | egrep America | head
+America/Adak
+America/Anchorage
+
+
+root@rhelsrv1:~# timedatectl set-timezone America/Anchorage
+root@rhelsrv1:~# date
+Fri Nov 21 05:21:55 PM AKST 2025
+
+
+
+
+
+

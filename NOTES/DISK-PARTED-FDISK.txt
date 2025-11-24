@@ -1,0 +1,31 @@
+
+
+-- PRINT
+
+root@localhost:~# parted /dev/nvme0n1
+Partition Table: unknown
+
+
+(parted) print
+Error: /dev/nvme0n1: unrecognised disk label
+Model: VMware Virtual NVMe Disk (nvme)                                    
+Disk /dev/nvme0n1: 19.3GB
+Sector size (logical/physical): 512B/512B
+Partition Table: unknown
+
+
+mklabel label-type
+gpt mdsos
+
+mklabel gpt
+128 partitions
+mklabel msdos
+4 partitions
+
+
+-By default parted displays in powers of 10
+
+s for sector
+B for byte
+MiB, GiB, or TiB (powers of 2)
+MB, GB, or TB (powers of 10)

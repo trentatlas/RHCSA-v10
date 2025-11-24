@@ -1,0 +1,4 @@
+
+nmcli device show
+ip addr show
+

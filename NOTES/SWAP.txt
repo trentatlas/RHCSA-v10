@@ -1,0 +1,23 @@
+
+root@rhelsrv1:~# lvcreate -n SWAPLV -L +4GB ROOTVG
+  Logical volume "SWAPLV" created.
+
+
+root@rhelsrv1:~# mkswap /dev/ROOTVG/SWAPLV 
+Setting up swapspace version 1, size = 4 GiB (4294963200 bytes)
+no label, UUID=59f1790d-92f2-45da-a2c9-1694ad2d0802
+
+/etc/fstab
+UUID=59f1790d-92f2-45da-a2c9-1694ad2d0802 swap swap defaults 0 0
+
+root@rhelsrv1:~# swapon  /dev/ROOTVG/SWAPLV
+root@rhelsrv1:~# free -m
+               total        used        free      shared  buff/cache   available
+Mem:            7917         455        7212           1         407        7462
+Swap:           6143           0        6143
+root@rhelsrv1:~# swapo
+swapoff  swapon   
+root@rhelsrv1:~# swapon --show
+NAME      TYPE      SIZE USED PRIO
+/dev/dm-1 partition   2G   0B   -2
+/dev/dm-7 partition   4G   0B   -3

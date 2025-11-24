@@ -1,0 +1,51 @@
+
+--- create users
+
+useradd jerry
+useradd elaine
+useradd kramer
+useradd george
+
+
+# groupadd freinds
+# groupadd neighbor
+# groupadd sienfield
+
+root@rhelsrv1:~# usermod -a -G freinds jerry
+
+
+root@rhelsrv1:~# id jerry
+uid=1001(jerry) gid=1001(jerry) groups=1001(jerry),1005(freinds)
+
+root@rhelsrv1:~# usermod -a -G freinds george
+
+root@rhelsrv1:~# id george
+uid=1002(george) gid=1002(george) groups=1002(george),1005(freinds)
+
+root@rhelsrv1:~# usermod -a -G neighbor kramer
+root@rhelsrv1:~# usermod -a -G neighbor jerry
+root@rhelsrv1:~# id jerry
+uid=1001(jerry) gid=1001(jerry) groups=1001(jerry),1005(freinds),1006(neighbor)
+root@rhelsrv1:~# id kramer
+uid=1004(kramer) gid=1004(kramer) groups=1004(kramer),1006(neighbor)
+root@rhelsrv1:~# usermod -a -G freinds kramer
+root@rhelsrv1:~# id kramer
+uid=1004(kramer) gid=1004(kramer) groups=1004(kramer),1005(freinds),1006(neighbor)
+
+
+/tmp/seinfild
+kramer:$y$j9T$y8x5l9fawRHGd5RHimO7rv3F$fVHSX0YgAKM0cKGNASr4BPwo7AJzXDBl4augj2SUbM0
+jerry:$y$j9T$y8x5l9fawRHGd5RHimO7rv3F$fVHSX0YgAKM0cKGNASr4BPwo7AJzXDBl4augj2SUbM0
+george:$y$j9T$y8x5l9fawRHGd5RHimO7rv3F$fVHSX0YgAKM0cKGNASr4BPwo7AJzXDBl4augj2SUbM0
+elaine:$y$j9T$y8x5l9fawRHGd5RHimO7rv3F$fVHSX0YgAKM0cKGNASr4BPwo7AJzXDBl4augj2SUbM0
+
+chpasswd -e < /tmp/sienfield
+
+root@rhelsrv1:~# usermod -a -G seinfeld jerry
+root@rhelsrv1:~# usermod -a -G seinfeld george
+root@rhelsrv1:~# usermod -a -G seinfeld elaine
+root@rhelsrv1:~# usermod -a -G seinfeld kramer
+
+- create /opt/sienfield 1 GB
+
+seinfeld:sienfeld /opt/seinfeld/
