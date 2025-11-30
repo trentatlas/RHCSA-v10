@@ -5,11 +5,13 @@ useradd jerry
 useradd elaine
 useradd kramer
 useradd george
+useradd newman
 
 
 # groupadd freinds
 # groupadd neighbor
 # groupadd sienfield
+# groupadd nemesis
 
 root@rhelsrv1:~# usermod -a -G freinds jerry
 

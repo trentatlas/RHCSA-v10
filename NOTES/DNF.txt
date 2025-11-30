@@ -1,0 +1,10 @@
+
+# dnf group list
+# dnf group list --hidden
+
+# dnf group install 
+
+#dnf remove gnome-desktop4 gnome-desktop3 firefox
+#dnf remove gnome-software gnome-system-monitor gnome-calculator gnome-bluetooth gnome-user-docs gnome-bluetooth gnome-user-docs gnome-text-editor gnome-online-accounts gnome-disk-utility gnome-remote-desktop gnome-font-viewer
+
+#dnf remove firefox flatpak

@@ -1,4 +1,11 @@
 
+
+-- OREILLY
+DAY 3 185
+YOUTUBE
+https://www.youtube.com/watch?v=MNS4_DNOsaU
+
+
 firewall-cmd --state
 
 firewall-cmd --get-zones
@@ -20,6 +27,10 @@ firewall-cmd --info-zone=internal
 firewall-cmd --get-default-zone
 
 firewall-cmd --info-zone=dmz
+
+
+
+
 
 -- SERVICES
 /usr/lib/firewalld/services/

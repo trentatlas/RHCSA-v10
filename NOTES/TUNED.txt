@@ -1,0 +1,21 @@
+---
+root@rhelsrv1:~# tuned-adm list
+
+
+Current active profile: balanced
+
+root@rhelsrv1:~# tuned-adm recommend 
+virtual-guest
+
+
+root@rhelsrv1:~# tuned-adm profile throughput-performance
+Current active profile: throughput-performance
+
+
+
+root@rhelsrv1:~# ls /usr/lib/tuned/profiles/
+accelerator-performance  balanced-battery  intel-sst            network-throughput       throughput-performance
+aws                      desktop           latency-performance  optimize-serial-console  virtual-guest
+balanced                 hpc-compute       network-latency      powersave                virtual-host
+
+

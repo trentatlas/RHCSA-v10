@@ -1,2 +1,52 @@
 --SELINUX
 
+DAY 3 150m
+
+root@rhelsrv1:~# getenforce 
+Enforcing
+
+root@rhelsrv1:~# setenforce 0
+root@rhelsrv1:~# getenforce 
+Permissive
+root@rhelsrv1:~# sestatus
+SELinux status:                 enabled
+SELinuxfs mount:                /sys/fs/selinux
+SELinux root directory:         /etc/selinux
+Loaded policy name:             targeted
+Current mode:                   permissive
+Mode from config file:          enforcing
+Policy MLS status:              enabled
+Policy deny_unknown status:     allowed
+Memory protection checking:     actual (secure)
+Max kernel policy version:      33
+root@rhelsrv1:~# 
+
+
+-packages
+policycoreutils
+selinux-policy
+setroubleshoot
+setools
+
+
+- httpd
+
+root@rhelsrv1:/var/www/html# ps axwuZ | egrep http
+system_u:system_r:httpd_t:s0    root        4195  0.0  0.1  28100 10320 ?        Ss   21:42   0:00 /usr/sbin/httpd -DFOREGROUND
+system_u:system_r:httpd_t:s0    apache      4196  0.0  0.0  27676  6188 ?        S    21:42   0:00 /usr/sbin/httpd -DFOREGROUND
+system_u:system_r:httpd_t:s0    apache      4197  0.0  0.1 1449036 8580 ?        Sl   21:42   0:00 /usr/sbin/httpd -DFOREGROUND
+system_u:system_r:httpd_t:s0    apache      4198  0.0  0.1 1581132 8796 ?        Sl   21:42   0:00 /usr/sbin/httpd -DFOREGROUND
+system_u:system_r:httpd_t:s0    apache      4234  0.0  0.1 1448980 8584 ?        Sl   21:42   0:00 /usr/sbin/httpd -DFOREGROUND
+
+
+root@rhelsrv1:/var/www/html# ls -ldZ /var/www
+drwxr-xr-x. 4 root root system_u:object_r:httpd_sys_content_t:s0 33 Nov 28 21:40 /var/www
+root@rhelsrv1:/var/www/html# ls -ldZ /var/www/html/
+drwxr-xr-x. 2 root root system_u:object_r:httpd_sys_content_t:s0 24 Nov 28 21:41 /var/www/html/
+root@rhelsrv1:/var/www/html# ls -ldZ /var/www/html/index.html 
+-rw-r--r--. 1 root root unconfined_u:object_r:httpd_sys_content_t:s0 22 Nov 28 21:41 /var/www/html/index.html
+root@rhelsrv1:/var/www/html# 
+
+
+
+

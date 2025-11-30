@@ -1,0 +1,119 @@
+
+
+-- RESCUE
+change password and fix /etc/fstab
+
+-NETWORK
+-- IPV4 192.168.192.201/24
+
+-- IPV6
+fd01::121/64
+
+-- rhelsrv1.aegisdawn.com
+
+-- REMOVE PACKAGES
+#dnf remove firefox flatpak gnome-desktop4 gnome-desktop3 gnome-software gnome-system-monitor gnome-calculator gnome-bluetooth gnome-user-docs gnome-bluetooth gnome-text-editor gnome-online-accounts gnome-disk-utility gnome-remote-desktop gnome-font-viewer
+
+-REPO DNF/YUM
+ 
+--ISO
+--- install chrony kernel-doc
+tick.usno.navy.mil
+-copy kernel doc man to /opt/kernel for both versions
+
+--- remove
+
+--
+
+
+-- INSTALL htop from NFS repo using autofs
+
+
+- copy /usr/share/doc to student $HOME
+
+-install kernel-doc
+-install flatpak podman
+
+-- MAKE JOURNALD persistant 
+
+--  CHANGE TZ to US/Pacific
+
+-- USER ADD
+All new users get WELCOME FILE
+90 days
+
+
+-- Apache / FIREWALLD
+Install httpd and LISTEN on public Interface
+
+
+-- TUNED
+ 
+set from balanced to throughput-performance
+
+-- sysctl 
+
+DISABLE KERNEL DUMP
+. ./etc/sysctl.d
+# systemctl restart systemd-sysctl.service
+# sysctl --system
+
+
+DISABLE CORE DUMPS
+/usr/lib/sysctl.d/50-coredump.conf
+kernel.core_pattern = |/bin/false
+
+enable ipv4 and ipv6 forwarding
+net.ipv4.ip_forward = 1
+net.ipv6.conf.all.forwarding = 1
+
+
+-- USERS
+useradd rachel
+
+useradd ross
+useradd monica
+
+useradd phoebe
+useradd joey
+useradd chandler
+
+# groupadd friends
+# groupadd neighbor
+
+- joey and chandler / rachel and monica[ neighbor ]
+- rachel ross monica phoebe joey chandler [ friends ]
+
+--
+/tmp/friends
+rachel:$y$j9T$y8x5l9fawRHGd5RHimO7rv3F$fVHSX0YgAKM0cKGNASr4BPwo7AJzXDBl4augj2SUbM0
+ross:$y$j9T$y8x5l9fawRHGd5RHimO7rv3F$fVHSX0YgAKM0cKGNASr4BPwo7AJzXDBl4augj2SUbM0
+monica:$y$j9T$y8x5l9fawRHGd5RHimO7rv3F$fVHSX0YgAKM0cKGNASr4BPwo7AJzXDBl4augj2SUbM0
+phoebe:$y$j9T$y8x5l9fawRHGd5RHimO7rv3F$fVHSX0YgAKM0cKGNASr4BPwo7AJzXDBl4augj2SUbM0
+joey:$y$j9T$y8x5l9fawRHGd5RHimO7rv3F$fVHSX0YgAKM0cKGNASr4BPwo7AJzXDBl4augj2SUbM0
+chandler:$y$j9T$y8x5l9fawRHGd5RHimO7rv3F$fVHSX0YgAKM0cKGNASr4BPwo7AJzXDBl4augj2SUbM0
+
+
+chpasswd -e < /tmp/friends
+
+create /opt/friends 1GB
+
+
+symlink from
+/opt/etc/hosts to /etc/hosts
+
+- all friends have access to CRON
+
+- sort /etc/passwd 
+- find all files by joey and monica
+
+
+-- apache
+-install httpd and configure it to run on port 82 from /u/www
+- custom INDEX.html welcome /u/www rhelsrv1
+- NFS /VAR/WWW
+
+
+
+
+

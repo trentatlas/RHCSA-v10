@@ -26,3 +26,13 @@ FIRMWARE ( UEFI )
      
 | > default.target
 
+
+#systemctl isolate xxx.target
+
+
+#root@rhelsrv1:~# systemctl list-dependencies 
+default.target
+
+
+● └─multi-user.target
+

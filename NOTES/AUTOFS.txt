@@ -66,3 +66,10 @@ repo    -rw     rhelmstr:/nfsrepo
 
 restart autofs
 
+-LDAP/NFS
+root@rhelsrv1:~# cat /etc/auto.home 
+*       -fstype=nfs,rw,sync     rhelmstr:/home/&
+
+auto.master
+/home   /etc/auto.home --ghost
+

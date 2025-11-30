@@ -29,3 +29,28 @@ s for sector
 B for byte
 MiB, GiB, or TiB (powers of 2)
 MB, GB, or TB (powers of 10)
+
+
+root@rhelsrv1:~# blkid | awk '/ISO/  { print $2 }'
+LABEL="ISO"
+root@rhelsrv1:~# blkid | awk '/ISO/  { print $3 }'
+
+
+FDISK 1GiB
+Partition number (1-128, default 1): 1
+First sector (34-37748702, default 2048): 
+Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-37748702, default 37746687): +1G
+
+Created a new partition 1 of type 'Linux filesystem' and of size 1 GiB.
+
+19 for SWAP
+Partition type or alias (type L to list all): L
+
+19 Linux swap 
+20 Linux filesystem
+44 Linux LVM
+
+/dev/sda1      2048  2099199 2097152    1G Linux filesystem
+/dev/sda2   2099200 10487807 8388608    4G Linux swap
+/dev/sda3  10487808 12441599 1953792  954M Linux LVM
+

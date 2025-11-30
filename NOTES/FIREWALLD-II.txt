@@ -1,0 +1,117 @@
+
+-WEST
+enp1s0 - PUBLIC FACIING  192.168.3.97/24
+
+http forward facing
+
+enp6s0 - LAN INTERNAL 10.199.25.97/24
+
+
+-EAST
+enp1s0 - PUBLIC FACIING  192.168.3.197/24
+BLOCK
+http forward facing
+
+enp6s0 - LAN INTERNAL 10.199.25.197/24
+INTERNAL
+---
+--
+[root@west ~]# firewall-cmd --state
+running
+[root@west ~]# firewall-cmd --get-default-zone
+public
+
+
+[root@west ~]# firewall-cmd --list-all --zone=public
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: enp1s0 enp6s0
+  sources:
+  services: cockpit dhcpv6-client ssh
+
+---
+
+[root@west ~]#  firewall-cmd --get-zones
+block dmz drop external home internal nm-shared public trusted work
+
+
+#firewall-cmd --zone=block --change-interface=enp1s0 --permanent
+#firewall-cmd --reload
+#firewall-cmd --runtime-to-permanent 
+#firewall-cmd --list-all --zone=block
+
+[root@west ~]# firewall-cmd --list-all --zone=block 
+block (active)
+  target: %%REJECT%%
+  icmp-block-inversion: no
+  interfaces: enp1s0
+  sources: 
+  services: 
+  ports: 
+  protocols: 
+
+
+
+
+
+
+[root@west ~]# firewall-cmd --add-protocol=icmp --zone=block --permanent
+success
+[root@west ~]# firewall-cmd --reload
+success
+[root@west ~]# firewall-cmd --list-all --zone=block 
+block (active)
+  target: %%REJECT%%
+  icmp-block-inversion: no
+  interfaces: enp1s0
+  sources: 
+  services: http
+  ports: 
+  protocols: icmp
+
+
+BLOCK 13/14 BLOCK while allowing ICMP
+[root@west ~]# firewall-cmd --add-icmp-block=timestamp-reply --zone=block --permanent
+success
+[root@west ~]# firewall-cmd --add-icmp-block=timestamp-request --zone=block --permanent
+success
+
+
+
+[root@west ~]# firewall-cmd --list-all --zone=block
+block (active)
+  target: %%REJECT%%
+  icmp-block-inversion: no
+  interfaces: enp1s0
+  sources: 
+  services: http
+  ports: 
+  protocols: icmp
+  forward: yes
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: timestamp-reply timestamp-request
+
+
+
+========================
+
+[root@west ~]# firewall-cmd --zone=internal --change-interface=enp6s0 --permanent
+The interface is under control of NetworkManager, setting zone to 'internal'.
+success
+
+[root@west ~]# firewall-cmd --reload
+success
+[root@west ~]# firewall-cmd --runtime-to-permanent 
+success
+[root@west ~]# firewall-cmd --list-all --zone=internal 
+internal (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: enp6s0
+  sources: 
+  services: cockpit dhcpv6-client mdns samba-client ssh
+
+

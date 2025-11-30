@@ -1,0 +1,137 @@
+
+ LVM DAY 3 20MIN.
+- resize,snapshots, etc.. 
+
+ Stratis and VDO out of scope for RHCSA 10
+
+
+- PHYSICAL VOLUME 
+represents storage device. 
+
+- Volume Group
+basic unit all available storeage
+
+- Logical Volumes
+BLOCK device where the file system will be created
+
+TYPE LVM - TYPE  44
+
+FDISK/PARTED
+
+#parted 
+mklabel gpt
+
+
+
+pvcreate
+vgcreate
+lvcreate -n lvdata -L 1G 
+mkfs.xfs mkfs.ext4
+
+Extents!!!
+vgcreate -s 8M vgdata /dev/sdb1
+
+vgdisplay
+pvdisplay
+
+-- LVCREATE
+root@rhelsrv1:~# pvs
+  PV             VG     Fmt  Attr PSize   PFree  
+  /dev/nvme0n1p3 ROOTVG lvm2 a--  <71.00g <42.25g
+  /dev/sda1      DATAVG lvm2 a--   23.99g  23.99g
+  /dev/sdb1      DATAVG lvm2 a--   23.99g  23.99g
+  /dev/sdc1      DATAVG lvm2 a--   23.99g  23.99g
+root@rhelsrv1:~# lvcreate -n DATALV -L 72G DATAVG
+  Volume group "DATAVG" has insufficient free space (9213 extents): 9216 required.
+root@rhelsrv1:~# echo $(( 9213 * 8 ))
+73704
+root@rhelsrv1:~# vgs DATAVG
+  VG     #PV #LV #SN Attr   VSize   VFree  
+  DATAVG   3   0   0 wz--n- <71.98g <71.98g
+
+
+
+root@rhelsrv1:~# lvcreate -n DATALV -l 50%FREE DATAVG
+  Logical volume "DATALV" created.
+root@rhelsrv1:~# lvs DATAVG
+  LV     VG     Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  DATALV DATAVG -wi-a----- 35.98g    
+
+
+root@rhelsrv1:~# lvcreate -n DATALV -l 100%FREE DATAVG
+  Logical volume "DATALV" created.
+root@rhelsrv1:~# lvs DATAVG
+  LV     VG     Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  DATALV DATAVG -wi-a----- <71.98g         
+
+root@rhelsrv1:~# vgs DATAVG
+  VG     #PV #LV #SN Attr   VSize   VFree
+  DATAVG   3   1   0 wz--n- <71.98g    0 
+
+
+root@rhelsrv1:~# lvcreate -n DATA1LV -l 50%FREE DATAVG
+  Logical volume "DATA1LV" created.
+root@rhelsrv1:~# lvcreate -n DATA2LV -l 100%FREE DATAVG
+  Logical volume "DATA2LV" created.
+
+root@rhelsrv1:~# lvs DATAVG
+  LV      VG     Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  DATA1LV DATAVG -wi-a----- 35.98g                                                    
+  DATA2LV DATAVG -wi-a----- 35.99g   
+
+
+
+
+-- create lv extents
+
+man lvcreate
+-l|--extents Number[PERCENT]
+-L|--size Size[m|UNIT]
+
+-r resize
+ -r|--readahead auto|none|Number
+
+-W|--wipesignatures y|n
+ -Z|--zero y|n
+
+root@rhelsrv1:~# lvcreate -l 1024 -n DATALV1 DATAVG
+  Logical volume "DATALV1" created.
+root@rhelsrv1:~# lvcreate -l 1024 -n DATALV2 DATAVG
+  Logical volume "DATALV2" created.
+root@rhelsrv1:~# lvs DATAVG
+  LV      VG     Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  DATALV1 DATAVG -wi-a----- 8.00g                                                    
+  DATALV2 DATAVG -wi-a----- 8.00g 
+
+
+root@rhelsrv1:~# lvcreate -Wy -Zy -l 1024 -n DATALV3 DATAVG
+  Logical volume "DATALV3" created.
+
+root@rhelsrv1:~# lvs DATAVG
+  LV      VG     Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  DATALV1 DATAVG -wi-a----- 8.00g                                                    
+  DATALV2 DATAVG -wi-a----- 8.00g                                                    
+  DATALV3 DATAVG -wi-a----- 8.00g    
+
+https://access.redhat.com/solutions/1228673
+
+
+
+root@rhelsrv1:~# pvs
+  PV             VG     Fmt  Attr PSize   PFree  
+  /dev/sda1      DATAVG lvm2 a--   23.99g   7.99g
+  /dev/sdb1      DATAVG lvm2 a--   23.99g  15.99g
+  /dev/sdc1      DATAVG lvm2 a--   23.99g  23.99g
+
+
+
+root@rhelsrv1:~# pvmove  /dev/sda1 /dev/sdc1
+  /dev/sda1: Moved: 2.64%
+  /dev/sda1: Moved: 50.00%
+  /dev/sda1: Moved: 100.00%
+
+root@rhelsrv1:~# pvs 
+  PV             VG     Fmt  Attr PSize   PFree  
+  /dev/sda1      DATAVG lvm2 a--   23.99g  23.99g
+  /dev/sdb1      DATAVG lvm2 a--   23.99g  15.99g
+  /dev/sdc1      DATAVG lvm2 a--   23.99g   7.99g
